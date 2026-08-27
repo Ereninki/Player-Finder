@@ -1,0 +1,11 @@
+[project]
+name = "playerbot"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "python-dotenv>=1.2.3",
+    "requests>=2.34.2",
+    "slack-bolt>=1.30.0",
+]
