@@ -5,6 +5,7 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "mcstatus>=14.1.0",
     "python-dotenv>=1.2.3",
     "requests>=2.34.2",
     "slack-bolt>=1.30.0",
