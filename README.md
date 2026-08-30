@@ -27,3 +27,5 @@ The _/server-status_ gives you informations about hackclubs minecraft server lik
 ---
 
 The **/api-health** gives you informations about hccore api and your hccore api key like **Status**, **API Version** and **Is API Key Authorized**
+
+**AND IF YOU WANT TO USE THIS DONT FORGET TO UPDATE ".env.example" AND RENAME IT ".env" !!!**
