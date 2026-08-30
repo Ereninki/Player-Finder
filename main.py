@@ -150,7 +150,7 @@ def player(ack, command, respond):
 
     ] """
 
-    respond(blocks=blocks, response_type="in_channel")
+    respond(blocks=blocks, response_type="ephemeral")
     return
 
 @app.command("/server-status")
@@ -191,7 +191,7 @@ def server(ack, respond):
         }
     ]
 
-    respond(blocks=blocks, response_type="in_channel")
+    respond(blocks=blocks, response_type="ephemeral")
 
 @app.command("/api-health")
 def api_health(ack, respond):
@@ -232,7 +232,7 @@ def api_health(ack, respond):
     ]
 
 
-    respond(blocks=blocks, response_type="in_channel")
+    respond(blocks=blocks, response_type="ephemeral")
     return
 
 @app.event("app_mention")
