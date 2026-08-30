@@ -24,30 +24,59 @@ def player(ack, command, respond):
     if(slack_id_re):
         slack_id = slack_id_re.group(1)
     else:
-        blocks = [
-            {
-                "type": "markdown",
-                "text": "bro pls tag someone not plain text it :bruhcat:"
-            }
-        ]
-        respond(blocks=blocks, response_type="ephemeral")
+        respond("bro pls tag someone not plain text it :bruhcat:", response_type="ephemeral")
         return
 
     hccore_api_response = requests.get(f"https://api.mc.hackclub.com/player?slack={slack_id}", headers=headers)
     hc_mc_server_infos = hccore_api_response.json()
+
     if "error" in hc_mc_server_infos:
-        blocks = [
-            {
-                "type": "markdown",
-                "text": hc_mc_server_infos["message"]
-            }
-        ]
-        respond(blocks=blocks, response_type = "ephemeral")
+        respond(hc_mc_server_infos["message"], response_type = "ephemeral")
         return
+        
     mojang_api_response = requests.get(f"https://api.minecraftservices.com/minecraft/profile/lookup/{hc_mc_server_infos[0]['uuid']}")
     mojang_api_results = mojang_api_response.json()
 
     blocks = [
+        {
+            "type": "header",
+            "text": {
+                "type": "plain_text",
+                "text": "USER MINECRAFT INFO",
+                "emoji": True
+            }
+        },
+        {
+            "type": "divider"
+        },
+        {
+            "type": "section",
+            "fields": [
+                {
+                    "type": "mrkdwn",
+                    "text": f"*HC Minecraft Server Color: * {hc_mc_server_infos[0]["nick"]["color"]}"
+                },
+                {
+                    "type": "mrkdwn",
+                    "text": f"*HC Minecraft Server Nickname: * {hc_mc_server_infos[0]["nick"]["name"]}"
+                },
+                {
+                    "type": "mrkdwn",
+                    "text": f"*Minecraft Nickname: * {mojang_api_results["name"]}"
+                },
+                {
+                    "type": "mrkdwn",
+                    "text": f"*UUID: * {hc_mc_server_infos[0]["uuid"]}"
+                },
+                {
+                    "type": "mrkdwn",
+                    "text": f"<https://namemc.com/profile/{hc_mc_server_infos[0]['uuid']}|NAMEMC :mc:>"
+                }
+            ]
+        }
+    ]
+
+    """ blocks = [
         {
             "type": "markdown",
             "text": "# USER MINECRAFT INFO\n\n---\n\n "
@@ -109,13 +138,17 @@ def player(ack, command, respond):
                         {
                             "type": "text",
                             "text": f"\n[NAMEMC](https://namemc.com/profile/{hc_mc_server_infos[0]['uuid']}) :mc:"
+                        },
+                        {
+                            "type": "mrkdwn",
+                            "text": f"<https://namemc.com/profiles/{hc_mc_server_infos[0]['uuid']}|NAMEMC :mc:>"
                         }
                     ]
                 }
             ]
         }
 
-    ]
+    ] """
 
     respond(blocks=blocks, response_type="in_channel")
     return
@@ -125,56 +158,34 @@ def server(ack, respond):
     ack()
 
     server = JavaServer.lookup("mc.hackclub.com")
-    status = server.status()
+    server_status = server.status()
 
     blocks = [
         {
-            "type": "markdown",
-            "text": "# HC MINECRAFT SERVER STATUS\n\n---\n\n "
+            "type": "header",
+            "text": {
+                "type": "plain_text",
+                "text": "HC MINECRAFT SERVER STATUS",
+                "emoji": True,
+            },
         },
         {
-            "type": "rich_text",
-            "elements": [
+            "type": "divider",
+        },
+        {
+            "type": "section",
+            "fields": [
                 {
-                    "type": "rich_text_section",
-                    "elements": [
-                        {
-                            "type": "text",
-                            "text": "Online players: ",
-                            "styles": {
-                                "bold": True,
-                                "italic": True
-                            }
-                        },
-                        {
-                            "type": "text",
-                            "text": str(status.players.online)
-                        },
-                        {
-                            "type": "text",
-                            "text": "\nPing: ",
-                            "styles": {
-                                "bold": True,
-                                "italic": True
-                            }
-                        },
-                        {
-                            "type": "text",
-                            "text": str(round(status.latency))
-                        },
-                        {
-                            "type": "text",
-                            "text": "\nVersion: ",
-                            "styles": {
-                                "bold": True,
-                                "italic": True
-                            }
-                        },
-                        {
-                            "type": "text",
-                            "text": status.version.name
-                        }
-                    ]
+                    "type": "mrkdwn",
+                    "text" : f"*Online Players: * {server_status.players.online}"
+                },
+                {
+                    "type":"mrkdwn",
+                    "text": f"*Ping: * {round(server_status.latency)}"
+                },
+                {
+                    "type": "mrkdwn",
+                    "text": f"*Version: * {server_status.version.name}"
                 }
             ]
         }
@@ -191,56 +202,35 @@ def api_health(ack, respond):
 
     blocks = [
         {
-            "type": "markdown",
-            "text": "# HCCORE API HEALTH\n\n---\n\n "
+            "type": "header",
+            "text": {
+                "type": "plain_text",
+                "text": "HCCORE API HEALTH",
+                "emoji": True
+            }
         },
         {
-            "type": "rich_text",
-            "elements": [
+            "type": "divider"
+        },
+        {
+            "type": "section",
+            "fields": [
                 {
-                    "type": "rich_text_section",
-                    "elements": [
-                        {
-                            "type": "text",
-                            "text": "Status: ",
-                            "styles": {
-                                "bold": True,
-                                "italic": True
-                            }
-                        },
-                        {
-                            "type": "text",
-                            "text": hccore_api_health["status"]
-                        },
-                        {
-                            "type": "text",
-                            "text": "\nVersion: ",
-                            "styles": {
-                                "bold": True,
-                                "italic": True
-                            }
-                        },
-                        {
-                            "type": "text",
-                            "text": hccore_api_health["version"]
-                        },
-                        {
-                            "type": "text",
-                            "text": "\nAPI Key Authorized? : ",
-                            "styles": {
-                                "bold": True,
-                                "italic": True
-                            }
-                        },
-                        {
-                            "type": "text",
-                            "text": str(hccore_api_health["authorized"])
-                        }
-                    ]
+                    "type": "mrkdwn",
+                    "text": f"*Status: * {hccore_api_health["status"]}"
+                },
+                {
+                    "type": "mrkdwn",
+                    "text": f"*Version: * {hccore_api_health["version"]}"
+                },
+                {
+                    "type": "mrkdwn",
+                    "text": f"*Is API Key Authorized? : * {hccore_api_health["authorized"]}"
                 }
             ]
         }
     ]
+
 
     respond(blocks=blocks, response_type="in_channel")
     return
