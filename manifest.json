@@ -15,6 +15,16 @@
                 "description": "lookup someone from hc mc server!!",
                 "usage_hint": "lookup <@slack_mention>",
                 "should_escape": true
+            },
+            {
+                "command": "/api-health",
+                "description": "health of the hccore api",
+                "should_escape": false
+            },
+            {
+                "command": "/server-status",
+                "description": "shows server status!!",
+                "should_escape": false
             }
         ]
     },
