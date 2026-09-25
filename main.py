@@ -27,7 +27,14 @@ def player(ack, command, respond):
         respond("bro pls tag someone not plain text it :bruhcat:", response_type="ephemeral")
         return
 
-    hccore_api_response = requests.get(f"https://api.mc.hackclub.com/player?slack={slack_id}", headers=headers)
+    try:
+        hccore_api_response = requests.get(f"https://api.mc.hackclub.com/player?slack={slack_id}", headers=headers)
+        hccore_api_response.raise_for_status()
+    except Exception as e:
+        respond(f"sorry, i cant reach the server... error: {e}, if you want to learn why pls contact with <@U0ASCU7PCAW>", response_type="ephemeral")
+        print(f"error: {e}")
+        return
+
     hc_mc_server_infos = hccore_api_response.json()
 
     if "error" in hc_mc_server_infos:
@@ -76,82 +83,57 @@ def player(ack, command, respond):
         }
     ]
 
-    """ blocks = [
+    respond(blocks=blocks, response_type="ephemeral")
+    return
+
+@app.command("/player-list")
+def player_list(ack, respond):
+    ack()
+
+    try:
+        online_players = requests.get("https://api.mc.hackclub.com/player/list", headers=headers)
+        online_players.raise_for_status()
+    except Exception as e:
+        respond(f"sorry, i cant reach the server... error: {e}, if you want to learn why pls contact with <@U0ASCU7PCAW>", response_type="ephemeral")
+        print(f"error: {e}")
+        return
+    online_players_info = online_players.json()
+    users = []
+    print(online_players_info)
+    for a in online_players_info:
+        if a["nick"]["name"] == []:
+            respond("Nobody is in the server :hs:", response_type="ephemeral")
+            return
+        print(a["nick"]["name"])
+        users.append(a["nick"]["name"])
+
+    blocks = [
         {
-            "type": "markdown",
-            "text": "# USER MINECRAFT INFO\n\n---\n\n "
+            "type": "header",
+            "text": {
+                "type": "plain_text",
+                "text": "ONLINE PLAYERS",
+                "emoji": True,
+            },
         },
         {
-            "type": "rich_text",
-            "elements": [
+            "type": "divider",
+        },
+        {
+            "type": "section",
+            "fields": [
                 {
-                    "type": "rich_text_section",
-                    "elements": [
-                        {
-                            "type": "text",
-                            "text": "HC Minecraft Server Color: ",
-                            "styles": {
-                                "bold": True,
-                                "italic": True
-                            }
-                        },
-                        {
-                            "type": "text",
-                            "text": hc_mc_server_infos[0]["nick"]["color"]
-                        },
-                        {
-                            "type": "text",
-                            "text": "\nHC Minecraft Server Nickname: ",
-                            "styles": {
-                                "bold": True,
-                                "italic": True
-                            }
-                        },
-                        {
-                            "type": "text",
-                            "text": hc_mc_server_infos[0]["nick"]["name"]
-                        },
-                        {
-                            "type": "text",
-                            "text": "\nMinecraft Nickname: ",
-                            "styles": {
-                                "bold": True,
-                                "italic": True
-                            }
-                        },
-                        {
-                            "type": "text",
-                            "text": mojang_api_results["name"]
-                        },
-                        {
-                            "type": "text",
-                            "text": "\nUUID: ",
-                            "styles": {
-                                "bold": True,
-                                "italic": True
-                            }
-                        },
-                        {
-                            "type": "text",
-                            "text": hc_mc_server_infos[0]["uuid"]
-                        },
-                        {
-                            "type": "text",
-                            "text": f"\n[NAMEMC](https://namemc.com/profile/{hc_mc_server_infos[0]['uuid']}) :mc:"
-                        },
-                        {
-                            "type": "mrkdwn",
-                            "text": f"<https://namemc.com/profiles/{hc_mc_server_infos[0]['uuid']}|NAMEMC :mc:>"
-                        }
-                    ]
+                    "type": "mrkdwn",
+                    "text": f"Online Player Count: {len(users)}"
+                },
+                {
+                    "type": "mrkdwn",
+                    "text": "Online Players: " + ", ".join(users)
                 }
             ]
         }
-
-    ] """
-
-    respond(blocks=blocks, response_type="ephemeral")
-    return
+    ]
+    respond(blocks=blocks, response_type="ephemeral") 
 
 @app.command("/server-status")
 def server(ack, respond):
@@ -197,7 +179,13 @@ def server(ack, respond):
 def api_health(ack, respond):
     ack()
 
-    hccore_api_response = requests.get("https://api.mc.hackclub.com/health", headers=headers)
+    try:
+        hccore_api_response = requests.get("https://api.mc.hackclub.com/health", headers=headers)
+    except Exception as e:
+        respond(f"sorry, i cant reach the server... error: {e}, if you want to learn why pls contact with <@U0ASCU7PCAW>", response_type="ephemeral")
+        print(f"error: {e}")
+        return
+    
     hccore_api_health = hccore_api_response.json()
 
     blocks = [
