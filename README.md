@@ -18,7 +18,7 @@ You can use it with 3 slash commands **/player lookup <@slack-mention>**, **/ser
 
 ---
 
-The **/player lookup <@slack-mention>** give you informations like **HC Minecraft Server Color**, **Minecraft Nickname**, **HC Minecraft Server Nickanme**, **UUID** and **NAMEMC Link**.
+The **/player lookup <@slack-mention>** gives you informations like **HC Minecraft Server Color**, **Minecraft Nickname**, **HC Minecraft Server Nickanme**, **UUID** and **NAMEMC Link**.
 
 **example:** /player lookup @Ghost of NovaEntity
 
@@ -35,6 +35,12 @@ The **/server-status** gives you informations about hackclubs minecraft server l
 The **/api-health** gives you informations about hccore api and your hccore api key like **Status**, **API Version** and **Is API Key Authorized**
 
 ![image](https://cdn.hackclub.com/01a051b9-1e64-7c61-b431-c4551b5e185b/image.png)
+
+---
+
+The **/player-list** gives you online players name and their total number!!!
+
+![image](https://cdn.hackclub.com/01a0da68-6cdc-7211-8e63-74f2b0e04e38/image_720.png)
 
 **AND IF YOU WANT TO USE THIS DONT FORGET TO UPDATE ".env.example" AND RENAME IT AS ".env" !!!**
 
