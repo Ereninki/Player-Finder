@@ -14,7 +14,7 @@ This is a slack bot that gives you all information about a minecraft player who 
 
 # Usage
 
-You can use it with 3 slash commands **/player lookup <@slack-mention>**, **/server-status** and **/api-health**
+You can use it with 3 slash commands **/player lookup <@slack-mention>**, **/server-status** and **/api-health** in **/minecraft**
 
 ---
 
