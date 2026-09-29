@@ -7,11 +7,11 @@
     "features": {
         "bot_user": {
             "display_name": "PlayerFinder",
-            "always_online": false
+            "always_online": true
         },
         "slash_commands": [
             {
-                "command": "/player",
+                "command": "/mine-player",
                 "description": "lookup someone from hc mc server!!",
                 "usage_hint": "lookup <@slack_mention>",
                 "should_escape": true
@@ -24,6 +24,11 @@
             {
                 "command": "/server-status",
                 "description": "shows server status!!",
+                "should_escape": false
+            },
+            {
+                "command": "/player-list",
+                "description": "List all the players online!!",
                 "should_escape": false
             }
         ]
@@ -54,6 +59,7 @@
         "org_deploy_enabled": false,
         "socket_mode_enabled": true,
         "token_rotation_enabled": false,
+        "app_level_token_rotation_enabled": false,
         "is_mcp_enabled": false
     }
 }
