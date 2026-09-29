@@ -15,7 +15,7 @@ headers = {
     }
 
 
-@app.command("/player")
+@app.command("/mine-player")
 def player(ack, command, respond):
     ack()
 
