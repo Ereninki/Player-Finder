@@ -14,13 +14,13 @@ This is a slack bot that gives you all information about a minecraft player who 
 
 # Usage
 
-You can use it with 3 slash commands **/player lookup <@slack-mention>**, **/server-status** and **/api-health** in **/minecraft**
+You can use it with 3 slash commands **/player lookup <@slack-mention>**, **/server-status** and **/api-health** in **#minecraft**
 
 ---
 
-The **/player lookup <@slack-mention>** gives you informations like **HC Minecraft Server Color**, **Minecraft Nickname**, **HC Minecraft Server Nickanme**, **UUID** and **NAMEMC Link**.
+The **/mine-player lookup <@slack-mention>** gives you informations like **HC Minecraft Server Color**, **Minecraft Nickname**, **HC Minecraft Server Nickanme**, **UUID** and **NAMEMC Link**.
 
-**example:** /player lookup @Ghost of NovaEntity
+**example:** /mine-player lookup @Ghost of NovaEntity
 
 ![image](https://cdn.hackclub.com/01a051bc-7857-7549-b15f-55e3d9b8b78c/image.png)
 
